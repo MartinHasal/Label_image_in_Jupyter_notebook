@@ -33,10 +33,19 @@ Few notes to `class LabelDataset` class for image labeling by Jupiter Notebook.
         classes: list -> List of classes for labeling
         paths: list -> List of pathes to images (given by search file algorithm)
         img_names: list -> List of image names (given by search file algorithm, for simple title finding)
-        author: str -> Author of labelling, it is good when more authors do the labeling,
+        author: str -> Author of labelling, it is good when more authors do the labeling
+        seed: int -> freeze the labelling shuffle, see README.md, for more details
         shuffle: bool = True -> shuffle the dataset to decrease human mistakes be looking at similar images
         position: int = 0, if you want to continue from some position, but shuffle should be FALSE !!! 
 If several people work on labelling, or you want to continuously work on labelling of a large dataset, options `shuffle=False` and starting from the last position are better. Otherwise, I recommend shuffling the dataset as it minimizes the risk of mistakes when people get similar images in sequence.
+
+### Create shuffled indexes of an image dataset (set `seed`)
+It can be handy in some situations to create a shuffle index of the loaded dataset. Shuffling, similarly to ML, helps not to feed the user by the same or similar images. In this case, it helps to concentrate on labelling as a boring and repetitive task. But sometimes, the same shuffling is useful, e.g., when only one expert label the dataset and does not want to label what was labelled.
+Few notes:
+- Be aware adding just one picture to the dataset creates new random indexes
+- If you have a fixed-length dataset and do not want to resolve the multi-labels (which can be created during random initialization) during the next session of the labelling process, set seed and position during the following session. 
+- In default, the seed is not given, as normally more than one expert label dataset and multi-labels of one image are resolved in discussion, and results is a better dataset
+
 
 ## Label saving
 The labels are stored in pandas DataFrame object and then saved on disk by name
